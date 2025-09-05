@@ -423,7 +423,9 @@ const QRForm = ({
                 variants={tabContentVariants}
               >
                 <div style={inputGroupStyle}>
-                  <label style={labelStyle}>URL atau Teks untuk QR Code (link ini ubah aja sesuai kebutuhan, saranku udah di short link (misal make bitly))</label>
+                  <label style={labelStyle}>URL atau Teks untuk QR Code </label>
+                  <small>(link ini ubah aja sesuai kebutuhan, saranku udah di short link (misal make bitly))</small>
+
                   <input 
                     type="text" 
                     value={value} 
