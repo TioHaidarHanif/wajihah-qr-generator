@@ -171,6 +171,7 @@ function App() {
               <QRPreview
                 value={value}
                 size={size}
+                previewSize={window.innerWidth < 1000 ? size/2 : size}
                 fgColor={fgColor}
                 bgColor={bgColor}
                 ecLevel={ecLevel}
@@ -292,14 +293,19 @@ function App() {
                   setShowDownloadModal(false);
                   // Download QR
                   const qrId = customId && customId.trim() ? customId : 'qr-code-canvas';
-                  const qrEl = document.getElementById(qrId);
+                  const fullCanvas = document.getElementById(qrId + '-full');
                   let canvas = null;
-                  if (qrEl && qrEl.tagName === 'CANVAS') {
-                    canvas = qrEl;
-                  } else if (qrEl) {
-                    canvas = qrEl.querySelector('canvas');
+                  if (fullCanvas && fullCanvas.tagName === 'CANVAS') {
+                    canvas = fullCanvas;
                   } else {
-                    canvas = document.querySelector(`#${qrId}, canvas#${qrId}`);
+                    const qrEl = document.getElementById(qrId);
+                    if (qrEl && qrEl.tagName === 'CANVAS') {
+                      canvas = qrEl;
+                    } else if (qrEl) {
+                      canvas = qrEl.querySelector('canvas');
+                    } else {
+                      canvas = document.querySelector(`#${qrId}, canvas#${qrId}`);
+                    }
                   }
                   if (canvas) {
                     const link = document.createElement('a');
@@ -369,14 +375,19 @@ function App() {
                   onClick={() => {
                     // Buka tab baru dengan QR code
                     const qrId = customId && customId.trim() ? customId : 'qr-code-canvas';
-                    const qrEl = document.getElementById(qrId);
+                    const fullCanvas = document.getElementById(qrId + '-full');
                     let canvas = null;
-                    if (qrEl && qrEl.tagName === 'CANVAS') {
-                      canvas = qrEl;
-                    } else if (qrEl) {
-                      canvas = qrEl.querySelector('canvas');
+                    if (fullCanvas && fullCanvas.tagName === 'CANVAS') {
+                      canvas = fullCanvas;
                     } else {
-                      canvas = document.querySelector(`#${qrId}, canvas#${qrId}`);
+                      const qrEl = document.getElementById(qrId);
+                      if (qrEl && qrEl.tagName === 'CANVAS') {
+                        canvas = qrEl;
+                      } else if (qrEl) {
+                        canvas = qrEl.querySelector('canvas');
+                      } else {
+                        canvas = document.querySelector(`#${qrId}, canvas#${qrId}`);
+                      }
                     }
                     if (canvas) {
                       const imageWindow = window.open('');
@@ -454,7 +465,7 @@ function App() {
         </div>
         
         <div style={{textAlign: 'center', marginTop: '40px', color: '#6c757d', fontSize: '14px'}}>
-          © {new Date().getFullYear()} QR Generator for Wajihah Telkom University | Made with Github Copilot XD
+        QR Generator for Wajihah Telkom University | Made with Github Copilot XD | ke <a href="https://github.com/TioHaidarHanif/wajihah-qr-generator" target="_blank" rel="noreferrer" style={{color:'#3498db', textDecoration:'none'}}>sini</a> aja klo ada apa2.
         </div>
     </div>
   );

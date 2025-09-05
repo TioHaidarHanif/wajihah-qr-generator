@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef, useEffect } from "react";
 import { QRCode } from "react-qrcode-logo";
 
 // Error boundary untuk menangkap error dari QRCode
@@ -36,12 +36,15 @@ class QRErrorBoundary extends Component {
 }
 
 const QRPreview = ({
-  value, size, fgColor, bgColor, ecLevel, quietZone,
+  value, size, previewSize = null, fgColor, bgColor, ecLevel, quietZone,
   logoImage, logoWidth, logoHeight, logoOpacity, logoPadding, logoPaddingStyle, logoPaddingRadius,
   removeQrCodeBehindLogo, qrStyle, eyeRadius, eyeColor, enableCORS, customId,
   logoBg, logoBgWidth, logoBgHeight, logoBgPosition, logoBgX, logoBgY, logoBgObjectFit, logoBgCustomStyle,
   qrOpacity
 }) => {
+  // Hidden canvas untuk download/new tab
+  const fullCanvasRef = useRef();
+  useEffect(() => {}, [value, size, fgColor, bgColor, ecLevel, quietZone, logoImage, logoWidth, logoHeight, logoOpacity, logoPadding, logoPaddingStyle, logoPaddingRadius, removeQrCodeBehindLogo, qrStyle, eyeRadius, eyeColor, enableCORS, logoBg, logoBgWidth, logoBgHeight, logoBgPosition, logoBgX, logoBgY, logoBgObjectFit, logoBgCustomStyle, qrOpacity]);
   // Batasi panjang data untuk mencegah overflow
   const maxLength = {
     'L': 2953,
@@ -57,17 +60,18 @@ const QRPreview = ({
   return (
     <div style={{marginTop: 1, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <h3>Preview QR Code</h3>
+      {/* Preview kecil */}
       {logoBg ? (
-        <div style={{position: "relative", width: size, height: size, display: "inline-block"}}>
+        <div style={{position: "relative", width: previewSize || size, height: previewSize || size, display: "inline-block"}}>
           <img
             src={logoImage}
             alt="Logo Background"
             style={{
               position: "absolute",
-              width: logoBgWidth,
-              height: logoBgHeight,
-              left: logoBgPosition === 'center' ? (size-logoBgWidth)/2 : logoBgPosition === 'left' ? 0 : logoBgPosition === 'right' ? (size-logoBgWidth) : logoBgPosition === 'custom' ? logoBgX : 0,
-              top: logoBgPosition === 'center' ? (size-logoBgHeight)/2 : logoBgPosition === 'top' ? 0 : logoBgPosition === 'bottom' ? (size-logoBgHeight) : logoBgPosition === 'custom' ? logoBgY : 0,
+              width: logoBgWidth * ((previewSize || size) / size),
+              height: logoBgHeight * ((previewSize || size) / size),
+              left: logoBgPosition === 'center' ? ((previewSize || size)-logoBgWidth*((previewSize || size)/size))/2 : logoBgPosition === 'left' ? 0 : logoBgPosition === 'right' ? ((previewSize || size)-logoBgWidth*((previewSize || size)/size)) : logoBgPosition === 'custom' ? logoBgX * ((previewSize || size)/size) : 0,
+              top: logoBgPosition === 'center' ? ((previewSize || size)-logoBgHeight*((previewSize || size)/size))/2 : logoBgPosition === 'top' ? 0 : logoBgPosition === 'bottom' ? ((previewSize || size)-logoBgHeight*((previewSize || size)/size)) : logoBgPosition === 'custom' ? logoBgY * ((previewSize || size)/size) : 0,
               objectFit: logoBgObjectFit,
               opacity: logoOpacity,
               zIndex: 1,
@@ -78,7 +82,7 @@ const QRPreview = ({
             <QRErrorBoundary>
               <QRCode
                 value={truncatedValue}
-                size={size}
+                size={previewSize || size}
                 fgColor={fgColor}
                 bgColor="rgba(255,255,255,0)"
                 ecLevel={ecLevel}
@@ -97,14 +101,14 @@ const QRPreview = ({
         <QRErrorBoundary>
           <QRCode
             value={truncatedValue}
-            size={size}
+            size={previewSize || size}
             fgColor={fgColor}
             bgColor={bgColor}
             ecLevel={ecLevel}
             quietZone={quietZone}
             logoImage={logoImage}
-            logoWidth={logoWidth}
-            logoHeight={logoHeight}
+            logoWidth={logoWidth * ((previewSize || size) / size)}
+            logoHeight={logoHeight * ((previewSize || size) / size)}
             logoOpacity={logoOpacity}
             logoPadding={logoPadding}
             logoPaddingStyle={logoPaddingStyle}
@@ -119,6 +123,33 @@ const QRPreview = ({
           />
         </QRErrorBoundary>
       )}
+      {/* Hidden canvas untuk download/new tab, ukuran asli */}
+      <div style={{position:'absolute', left:'-9999px', width:0, height:0, overflow:'hidden'}}>
+        <QRErrorBoundary>
+          <QRCode
+            value={truncatedValue}
+            size={size}
+            fgColor={fgColor}
+            bgColor={logoBg ? "rgba(255,255,255,0)" : bgColor}
+            ecLevel={ecLevel}
+            quietZone={quietZone}
+            logoImage={logoImage}
+            logoWidth={logoWidth}
+            logoHeight={logoHeight}
+            logoOpacity={logoOpacity}
+            logoPadding={logoPadding}
+            logoPaddingStyle={logoPaddingStyle}
+            logoPaddingRadius={logoPaddingRadius}
+            removeQrCodeBehindLogo={removeQrCodeBehindLogo}
+            qrStyle={qrStyle}
+            eyeRadius={eyeRadius ? [eyeRadius, eyeRadius, eyeRadius] : undefined}
+            eyeColor={eyeColor}
+            enableCORS={enableCORS}
+            id={(customId && customId.trim() ? customId : 'qr-code-canvas') + '-full'}
+            style={{display:'block'}}
+          />
+        </QRErrorBoundary>
+      </div>
     </div>
   );
 };
