@@ -435,34 +435,10 @@ const QRForm = ({
                 </div>
 
                 <div style={{marginBottom: '20px'}}>
-                  <h5 style={{marginBottom: '8px', marginTop: '16px', display:'flex', alignItems:'center', gap:8}}>
-                    Pilih Logo
-                    <button
-                      type="button"
-                      style={{
-                        marginLeft: 8,
-                        padding: '4px 12px',
-                        fontSize: 13,
-                        borderRadius: 6,
-                        background: '#f1f3f5',
-                        color: '#495057',
-                        border: '1px solid #dee2e6',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 4
-                      }}
-                      title="Reload logo dan sesuaikan ukuran"
-                      onClick={() => {
-                        // Trigger reload dengan set ulang logoImage ke dirinya sendiri
-                        setLogoImage(logoImage);
-                      }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#495057" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0 0 20.49 15"></path></svg>
-                      Reload
-                    </button>
-                  </h5>
+                  <h5 style={{marginBottom: '8px', marginTop: '16px'}}>Pilih Logo</h5>
+                  <div style={{fontSize:13, color:'#e67e22', marginBottom:8, marginTop:-4}}>
+                    Jika logo masih bermasalah, coba pilih logo lain lalu kembali ke logo yang diinginkan.
+                  </div>
                   {logoLoading && (
                     <div style={{
                       padding: '12px',

@@ -1,11 +1,3 @@
-import React, { useState, useEffect } from "react";
-import QRForm from "./components/QRForm";
-import QRPreview from "./components/QRPreview";
-
-function App() {
-  const [showDownloadModal, setShowDownloadModal] = useState(false);
-  const [qrOpacity, setQrOpacity] = useState(1);
-  const [logoRatioLocked, setLogoRatioLocked] = useState(true);
   // Handler for logoWidth/Height with ratio lock
   const handleLogoWidth = (w) => {
     setLogoWidth(w);
@@ -19,36 +11,86 @@ function App() {
       setLogoWidth(Math.round(h * (logoNaturalWidth / logoNaturalHeight)));
     }
   };
-  const [logoImage, setLogoImage] = useState("/LOGO WAJIHAH/MQ.png");
-  // const [size, setSize] = useState(256); // removed duplicate
-  const [logoBgWidth, setLogoBgWidth] = useState(10); // half of QR size
-  const [logoBgHeight, setLogoBgHeight] = useState(10); // half of QR size
+import React, { useState, useEffect } from "react";
+import QRForm from "./components/QRForm";
+import QRPreview from "./components/QRPreview";
+
+function App() {
+  // Load from localStorage if available
+  const getInitial = (key, def) => {
+    try {
+      const saved = localStorage.getItem('qrform_' + key);
+      if (saved !== null && saved !== undefined) {
+        if (typeof def === 'boolean') return saved === 'true';
+        if (typeof def === 'number') return Number(saved);
+        return saved;
+      }
+    } catch {}
+    return def;
+  };
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [qrOpacity, setQrOpacity] = useState(getInitial('qrOpacity', 1));
+  const [logoRatioLocked, setLogoRatioLocked] = useState(getInitial('logoRatioLocked', true));
+  const [logoImage, setLogoImage] = useState(getInitial('logoImage', "/LOGO WAJIHAH/MQ.png"));
+  const [logoBgWidth, setLogoBgWidth] = useState(getInitial('logoBgWidth', 10));
+  const [logoBgHeight, setLogoBgHeight] = useState(getInitial('logoBgHeight', 10));
   const [logoNaturalWidth, setLogoNaturalWidth] = useState(256);
   const [logoNaturalHeight, setLogoNaturalHeight] = useState(256);
-  const [logoBgPosition, setLogoBgPosition] = useState('center');
-  const [logoBgX, setLogoBgX] = useState(0);
-  const [logoBgY, setLogoBgY] = useState(0);
-  const [logoBgCustomStyle, setLogoBgCustomStyle] = useState("");
-  const [value, setValue] = useState("https://share.google/Vzcr6CNrzTQ1euFlT");
-  const [size, setSize] = useState(500);
-  const [fgColor, setFgColor] = useState("#000000");
-  const [bgColor, setBgColor] = useState("transparent");
-  const [ecLevel, setEcLevel] = useState("H");
-  const [quietZone, setQuietZone] = useState(10);
-  const [logoWidth, setLogoWidth] = useState(128); // half of QR size
-  const [logoHeight, setLogoHeight] = useState(128); // half of QR size
-  const [logoBgObjectFit, setLogoBgObjectFit] = useState("cover");
-  const [logoOpacity, setLogoOpacity] = useState(1);
-  const [logoPadding, setLogoPadding] = useState(0.1);
-  const [logoPaddingStyle, setLogoPaddingStyle] = useState("circle");
-  const [logoPaddingRadius, setLogoPaddingRadius] = useState(0);
-  const [removeQrCodeBehindLogo, setRemoveQrCodeBehindLogo] = useState(true);
-  const [qrStyle, setQrStyle] = useState("squares");
-  const [eyeRadius, setEyeRadius] = useState(10);
-  const [eyeColor, setEyeColor] = useState("#000000");
-  const [enableCORS, setEnableCORS] = useState(true);
-  const [customId, setCustomId] = useState("");
-  const [logoBg, setLogoBg] = useState(false);
+  const [logoBgPosition, setLogoBgPosition] = useState(getInitial('logoBgPosition', 'center'));
+  const [logoBgX, setLogoBgX] = useState(getInitial('logoBgX', 0));
+  const [logoBgY, setLogoBgY] = useState(getInitial('logoBgY', 0));
+  const [logoBgCustomStyle, setLogoBgCustomStyle] = useState(getInitial('logoBgCustomStyle', ""));
+  const [value, setValue] = useState(getInitial('value', "https://share.google/Vzcr6CNrzTQ1euFlT"));
+  const [size, setSize] = useState(getInitial('size', 500));
+  const [fgColor, setFgColor] = useState(getInitial('fgColor', "#000000"));
+  const [bgColor, setBgColor] = useState(getInitial('bgColor', "transparent"));
+  const [ecLevel, setEcLevel] = useState(getInitial('ecLevel', "H"));
+  const [quietZone, setQuietZone] = useState(getInitial('quietZone', 10));
+  const [logoWidth, setLogoWidth] = useState(getInitial('logoWidth', 128));
+  const [logoHeight, setLogoHeight] = useState(getInitial('logoHeight', 128));
+  const [logoBgObjectFit, setLogoBgObjectFit] = useState(getInitial('logoBgObjectFit', "cover"));
+  const [logoOpacity, setLogoOpacity] = useState(getInitial('logoOpacity', 1));
+  const [logoPadding, setLogoPadding] = useState(getInitial('logoPadding', 0.1));
+  const [logoPaddingStyle, setLogoPaddingStyle] = useState(getInitial('logoPaddingStyle', "circle"));
+  const [logoPaddingRadius, setLogoPaddingRadius] = useState(getInitial('logoPaddingRadius', 0));
+  const [removeQrCodeBehindLogo, setRemoveQrCodeBehindLogo] = useState(getInitial('removeQrCodeBehindLogo', true));
+  const [qrStyle, setQrStyle] = useState(getInitial('qrStyle', "squares"));
+  const [eyeRadius, setEyeRadius] = useState(getInitial('eyeRadius', 10));
+  const [eyeColor, setEyeColor] = useState(getInitial('eyeColor', "#000000"));
+  const [enableCORS, setEnableCORS] = useState(getInitial('enableCORS', true));
+  const [customId, setCustomId] = useState(getInitial('customId', ""));
+  const [logoBg, setLogoBg] = useState(getInitial('logoBg', false));
+
+  // Save to localStorage on change
+  useEffect(() => { localStorage.setItem('qrform_qrOpacity', qrOpacity); }, [qrOpacity]);
+  useEffect(() => { localStorage.setItem('qrform_logoRatioLocked', logoRatioLocked); }, [logoRatioLocked]);
+  useEffect(() => { localStorage.setItem('qrform_logoImage', logoImage); }, [logoImage]);
+  useEffect(() => { localStorage.setItem('qrform_logoBgWidth', logoBgWidth); }, [logoBgWidth]);
+  useEffect(() => { localStorage.setItem('qrform_logoBgHeight', logoBgHeight); }, [logoBgHeight]);
+  useEffect(() => { localStorage.setItem('qrform_logoBgPosition', logoBgPosition); }, [logoBgPosition]);
+  useEffect(() => { localStorage.setItem('qrform_logoBgX', logoBgX); }, [logoBgX]);
+  useEffect(() => { localStorage.setItem('qrform_logoBgY', logoBgY); }, [logoBgY]);
+  useEffect(() => { localStorage.setItem('qrform_logoBgCustomStyle', logoBgCustomStyle); }, [logoBgCustomStyle]);
+  useEffect(() => { localStorage.setItem('qrform_value', value); }, [value]);
+  useEffect(() => { localStorage.setItem('qrform_size', size); }, [size]);
+  useEffect(() => { localStorage.setItem('qrform_fgColor', fgColor); }, [fgColor]);
+  useEffect(() => { localStorage.setItem('qrform_bgColor', bgColor); }, [bgColor]);
+  useEffect(() => { localStorage.setItem('qrform_ecLevel', ecLevel); }, [ecLevel]);
+  useEffect(() => { localStorage.setItem('qrform_quietZone', quietZone); }, [quietZone]);
+  useEffect(() => { localStorage.setItem('qrform_logoWidth', logoWidth); }, [logoWidth]);
+  useEffect(() => { localStorage.setItem('qrform_logoHeight', logoHeight); }, [logoHeight]);
+  useEffect(() => { localStorage.setItem('qrform_logoBgObjectFit', logoBgObjectFit); }, [logoBgObjectFit]);
+  useEffect(() => { localStorage.setItem('qrform_logoOpacity', logoOpacity); }, [logoOpacity]);
+  useEffect(() => { localStorage.setItem('qrform_logoPadding', logoPadding); }, [logoPadding]);
+  useEffect(() => { localStorage.setItem('qrform_logoPaddingStyle', logoPaddingStyle); }, [logoPaddingStyle]);
+  useEffect(() => { localStorage.setItem('qrform_logoPaddingRadius', logoPaddingRadius); }, [logoPaddingRadius]);
+  useEffect(() => { localStorage.setItem('qrform_removeQrCodeBehindLogo', removeQrCodeBehindLogo); }, [removeQrCodeBehindLogo]);
+  useEffect(() => { localStorage.setItem('qrform_qrStyle', qrStyle); }, [qrStyle]);
+  useEffect(() => { localStorage.setItem('qrform_eyeRadius', eyeRadius); }, [eyeRadius]);
+  useEffect(() => { localStorage.setItem('qrform_eyeColor', eyeColor); }, [eyeColor]);
+  useEffect(() => { localStorage.setItem('qrform_enableCORS', enableCORS); }, [enableCORS]);
+  useEffect(() => { localStorage.setItem('qrform_customId', customId); }, [customId]);
+  useEffect(() => { localStorage.setItem('qrform_logoBg', logoBg); }, [logoBg]);
 
   // Sync logo natural size
   useEffect(() => {
