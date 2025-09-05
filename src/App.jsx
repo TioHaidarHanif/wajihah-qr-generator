@@ -28,8 +28,8 @@ function App() {
   const [logoBgX, setLogoBgX] = useState(getInitial('logoBgX', 0));
   const [logoBgY, setLogoBgY] = useState(getInitial('logoBgY', 0));
   const [logoBgCustomStyle, setLogoBgCustomStyle] = useState(getInitial('logoBgCustomStyle', ""));
-  const [value, setValue] = useState(getInitial('value', "https://bit.ly/btw-nitip"));
-  const [size, setSize] = useState(getInitial('size', 500));
+  const [value, setValue] = useState(getInitial('value', "bit.ly/btw-nitip"));
+  const [size, setSize] = useState(getInitial('size', 350));
   const [fgColor, setFgColor] = useState(getInitial('fgColor', "#000000"));
   const [bgColor, setBgColor] = useState(getInitial('bgColor', "transparent"));
   const [ecLevel, setEcLevel] = useState(getInitial('ecLevel', "H"));
@@ -315,6 +315,8 @@ function App() {
                 <li>Teks/URL terlalu panjang</li>
                 <li>Logo terlalu besar</li>
                 <li>Warna QR kurang kontras dengan background</li>
+                <li>Atau ada keanehan lain yang mengakibatkan tidak bisa scan qr <a href="https://www.linkedin.com/in/atiohaidar/">(kontak)</a></li>
+
               </ul>
               Pastikan QR sudah <span style={{color:'#27ae60'}}>bisa di-scan</span> dengan aplikasi scanner sebelum digunakan!
             </div>

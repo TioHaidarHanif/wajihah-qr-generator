@@ -449,8 +449,8 @@ const QRForm = ({
                     marginTop: 8
                   }}
                   onClick={() => {
-                    setValue("https://bit.ly/btw-nitip");
-                    setSize(500);
+                    setValue("bit.ly/btw-nitip");
+                    setSize(350);
                     setBgColor("transparent");
                     setEcLevel("H");
                     setQuietZone(10);
