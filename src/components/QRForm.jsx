@@ -75,7 +75,6 @@ const QRForm = ({
     { label: "MQ", value: "/LOGO WAJIHAH/MQ.png" },
     { label: "PRISMA", value: "/LOGO WAJIHAH/PRISMA.png" },
     { label: "Lazissu", value: "/LOGO WAJIHAH/Lazissu.png" },
-    { label: "Telkom University", value: "/LOGO WAJIHAH/Telkom University.png" },
   ];
 
   // Fakultas logos
@@ -424,7 +423,7 @@ const QRForm = ({
                 variants={tabContentVariants}
               >
                 <div style={inputGroupStyle}>
-                  <label style={labelStyle}>URL atau Teks untuk QR Code</label>
+                  <label style={labelStyle}>URL atau Teks untuk QR Code (link ini ubah aja sesuai kebutuhan, saranku udah di short link (misal make bitly))</label>
                   <input 
                     type="text" 
                     value={value} 
