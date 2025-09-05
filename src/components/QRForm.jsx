@@ -434,6 +434,52 @@ const QRForm = ({
                     style={inputStyle}
                   />
                 </div>
+                <button
+                  type="button"
+                  style={{
+                    marginBottom: 20,
+                    padding: '10px 18px',
+                    background: '#f1f3f5',
+                    color: '#495057',
+                    border: '1px solid #dee2e6',
+                    borderRadius: 8,
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    fontSize: 15,
+                    marginTop: 8
+                  }}
+                  onClick={() => {
+                    setValue("https://share.google/Vzcr6CNrzTQ1euFlT");
+                    setSize(500);
+                    setBgColor("transparent");
+                    setEcLevel("H");
+                    setQuietZone(10);
+                    setLogoImage("/LOGO WAJIHAH/MQ.png");
+                    setLogoWidth(128);
+                    setLogoHeight(128);
+                    setLogoRatioLocked(true);
+                    setLogoOpacity(1);
+                    setLogoPadding(0.1);
+                    setLogoPaddingStyle("circle");
+                    setLogoPaddingRadius(0);
+                    setRemoveQrCodeBehindLogo(true);
+                    setQrStyle("squares");
+                    setEyeRadius(10);
+                    setEnableCORS(true);
+                    setCustomId("");
+                    setLogoBg(false);
+                    setLogoBgWidth(10);
+                    setLogoBgHeight(10);
+                    setLogoBgPosition("center");
+                    setLogoBgX(0);
+                    setLogoBgY(0);
+                    setLogoBgObjectFit("cover");
+                    setLogoBgCustomStyle("");
+                    setQrOpacity(1);
+                  }}
+                >
+                  Reset ke Default
+                </button>
 
                 <div style={{marginBottom: '20px'}}>
                   <h5 style={{marginBottom: '8px', marginTop: '16px'}}>Pilih Logo</h5>
@@ -548,61 +594,7 @@ const QRForm = ({
               >
                 <h4 style={{marginTop: 0, marginBottom: '16px'}}>Pengaturan Logo</h4>
                 
-                <div style={{marginBottom: '16px'}}>
-                  <div style={{
-                    padding: '12px',
-                    background: logoLoading ? '#fff3cd' : '#f8f9fa',
-                    borderRadius: '8px',
-                    marginBottom: '16px',
-                    border: logoLoading ? '1px solid #ffeaa7' : '1px solid #e9ecef',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    <div style={{textAlign: 'center', marginBottom: '12px'}}>
-                      {logoLoading ? (
-                        <div style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          gap: '12px'
-                        }}>
-                          <div style={{
-                            width: '40px',
-                            height: '40px',
-                            border: '3px solid #f39c12',
-                            borderTop: '3px solid transparent',
-                            borderRadius: '50%',
-                            animation: 'spin 1s linear infinite'
-                          }}></div>
-                          <div style={{fontSize: '14px', color: '#856404'}}>
-                            Memproses logo...
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <img 
-                            src={logoImage} 
-                            alt="Logo terpilih" 
-                            style={{
-                              width: '80px',
-                              height: '80px',
-                              objectFit: 'contain',
-                              margin: '0 auto',
-                              border: '1px solid #ddd',
-                              borderRadius: '4px',
-                              background: 'white'
-                            }}
-                          />
-                          <div style={{fontSize: '12px', color: '#6c757d', marginTop: '4px'}}>
-                            Logo terpilih ({logoNaturalWidth}x{logoNaturalHeight}px)
-                          </div>
-                          <div style={{fontSize: '11px', color: '#6c757d'}}>
-                            Saat ini: {logoWidth}x{logoHeight}px di QR
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                
 
                 <div style={flexStyle}>
                   <div style={{flex: '1 1 45%', minWidth: '120px'}}>
@@ -807,23 +799,7 @@ const QRForm = ({
                         </select>
                       </div>
 
-                      <div style={{marginTop: '16px'}}>
-                        <label style={labelStyle}>CSS Kustom Background</label>
-                        <textarea 
-                          value={logoBgCustomStyle}
-                          onChange={(e) => setLogoBgCustomStyle(e.target.value)}
-                          placeholder="opacity: 0.3; filter: blur(2px);"
-                          style={{
-                            ...inputStyle,
-                            minHeight: '60px',
-                            resize: 'vertical',
-                            fontFamily: 'monospace'
-                          }}
-                        />
-                        <p style={{fontSize: '12px', color: '#6c757d', margin: '4px 0 0'}}>
-                          Masukkan properti CSS untuk styling background logo
-                        </p>
-                      </div>
+                    
                     </motion.div>
                   )}
                 </div>
@@ -887,12 +863,15 @@ const QRForm = ({
                       onChange={(e) => setBgColor(e.target.value)}
                       style={{width: '100%', height: '40px'}}
                     />
-                    <button 
-                      onClick={() => setBgColor('transparent')}
-                      style={{...secondaryButtonStyle, marginTop: '8px', padding: '6px 10px', fontSize: '13px'}}
-                    >
+                    <label style={{display:'flex', alignItems:'center', marginTop:'8px', fontSize:'13px', cursor:'pointer'}}>
+                      <input
+                        type="checkbox"
+                        checked={bgColor === 'transparent'}
+                        onChange={e => setBgColor(e.target.checked ? 'transparent' : '#ffffff')}
+                        style={{marginRight:'8px'}}
+                      />
                       Transparan
-                    </button>
+                    </label>
                   </div>
                 </div>
 

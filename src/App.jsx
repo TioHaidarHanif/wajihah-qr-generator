@@ -1,16 +1,4 @@
-  // Handler for logoWidth/Height with ratio lock
-  const handleLogoWidth = (w) => {
-    setLogoWidth(w);
-    if (logoRatioLocked && logoNaturalWidth && logoNaturalHeight) {
-      setLogoHeight(Math.round(w * (logoNaturalHeight / logoNaturalWidth)));
-    }
-  };
-  const handleLogoHeight = (h) => {
-    setLogoHeight(h);
-    if (logoRatioLocked && logoNaturalWidth && logoNaturalHeight) {
-      setLogoWidth(Math.round(h * (logoNaturalWidth / logoNaturalHeight)));
-    }
-  };
+
 import React, { useState, useEffect } from "react";
 import QRForm from "./components/QRForm";
 import QRPreview from "./components/QRPreview";
@@ -60,7 +48,19 @@ function App() {
   const [enableCORS, setEnableCORS] = useState(getInitial('enableCORS', true));
   const [customId, setCustomId] = useState(getInitial('customId', ""));
   const [logoBg, setLogoBg] = useState(getInitial('logoBg', false));
-
+  // Handler for logoWidth/Height with ratio lock
+  const handleLogoWidth = (w) => {
+    setLogoWidth(w);
+    if (logoRatioLocked && logoNaturalWidth && logoNaturalHeight) {
+      setLogoHeight(Math.round(w * (logoNaturalHeight / logoNaturalWidth)));
+    }
+  };
+  const handleLogoHeight = (h) => {
+    setLogoHeight(h);
+    if (logoRatioLocked && logoNaturalWidth && logoNaturalHeight) {
+      setLogoWidth(Math.round(h * (logoNaturalWidth / logoNaturalHeight)));
+    }
+  };
   // Save to localStorage on change
   useEffect(() => { localStorage.setItem('qrform_qrOpacity', qrOpacity); }, [qrOpacity]);
   useEffect(() => { localStorage.setItem('qrform_logoRatioLocked', logoRatioLocked); }, [logoRatioLocked]);

@@ -70,8 +70,27 @@ const QRPreview = ({
               position: "absolute",
               width: logoBgWidth * ((previewSize || size) / size),
               height: logoBgHeight * ((previewSize || size) / size),
-              left: logoBgPosition === 'center' ? ((previewSize || size)-logoBgWidth*((previewSize || size)/size))/2 : logoBgPosition === 'left' ? 0 : logoBgPosition === 'right' ? ((previewSize || size)-logoBgWidth*((previewSize || size)/size)) : logoBgPosition === 'custom' ? logoBgX * ((previewSize || size)/size) : 0,
-              top: logoBgPosition === 'center' ? ((previewSize || size)-logoBgHeight*((previewSize || size)/size))/2 : logoBgPosition === 'top' ? 0 : logoBgPosition === 'bottom' ? ((previewSize || size)-logoBgHeight*((previewSize || size)/size)) : logoBgPosition === 'custom' ? logoBgY * ((previewSize || size)/size) : 0,
+              ...(() => {
+                const w = logoBgWidth * ((previewSize || size) / size);
+                const h = logoBgHeight * ((previewSize || size) / size);
+                const S = (previewSize || size);
+                switch (logoBgPosition) {
+                  case 'center':
+                    return { left: (S - w) / 2, top: (S - h) / 2 };
+                  case 'top-left':
+                    return { left: 0, top: 0 };
+                  case 'top-right':
+                    return { left: S - w, top: 0 };
+                  case 'bottom-left':
+                    return { left: 0, top: S - h };
+                  case 'bottom-right':
+                    return { left: S - w, top: S - h };
+                  case 'custom':
+                    return { left: logoBgX * ((previewSize || size)/size), top: logoBgY * ((previewSize || size)/size) };
+                  default:
+                    return { left: 0, top: 0 };
+                }
+              })(),
               objectFit: logoBgObjectFit,
               opacity: logoOpacity,
               zIndex: 1,
