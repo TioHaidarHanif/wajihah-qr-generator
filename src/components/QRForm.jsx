@@ -422,6 +422,7 @@ const QRForm = ({
                 exit="exit"
                 variants={tabContentVariants}
               >
+                
                 <div style={inputGroupStyle}>
                   <label style={labelStyle}>URL atau Teks untuk QR Code </label>
                   <small>(link ini ubah aja sesuai kebutuhan, saranku udah di short link (misal make bitly))</small>
@@ -434,7 +435,141 @@ const QRForm = ({
                     style={inputStyle}
                   />
                 </div>
-                <button
+                    <div style={{marginBottom: 20}}>
+                  <label style={labelStyle}>Ukuran Logo</label>
+                  <input
+                    type="range"
+                    min="24"
+                    max={Math.floor(size/1.5)}
+                    value={logoWidth}
+                    onChange={e => handleLogoWidth(Number(e.target.value))}
+                    style={{width:'100%'}}
+                  />
+                  <div style={{fontSize:13, color:'#666', marginTop:4}}>
+                    {logoWidth} x {logoHeight} px
+                  </div>
+                </div>
+               
+
+                <div style={{marginBottom: '20px'}}>
+                  <h5 style={{marginBottom: '8px', marginTop: '16px'}}>Pilih Logo</h5>
+                  <label style={{display:'flex', alignItems:'center', marginBottom:8, fontSize:13, cursor:'pointer'}}>
+                    <input
+                      type="checkbox"
+                      checked={!!logoImage}
+                      onChange={e => {
+                        if (e.target.checked) {
+                          setLogoImage("/LOGO WAJIHAH/MQ.png");
+                        } else {
+                          setLogoImage(null);
+                        }
+                      }}
+                      style={{marginRight:'8px'}}
+                    />
+                    Tampilkan Logo di QR
+                  </label>
+                  <div style={{fontSize:13, color:'#e67e22', marginBottom:8, marginTop:-4}}>
+                    Jika logo masih bermasalah, coba pilih logo lain lalu kembali ke logo yang diinginkan.
+                  </div>
+                  {logoLoading && (
+                    <div style={{
+                      padding: '12px',
+                      background: '#e3f2fd',
+                      borderRadius: '8px',
+                      marginBottom: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      border: '1px solid #bbdefb'
+                    }}>
+                      <div style={{
+                        width: '16px',
+                        height: '16px',
+                        border: '2px solid #2196f3',
+                        borderTop: '2px solid transparent',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite'
+                      }}></div>
+                      <span style={{color: '#1976d2', fontSize: '14px'}}>
+                        Sedang menyesuaikan warna dan ukuran logo...
+                      </span>
+                      <style>
+                        {`@keyframes spin { to { transform: rotate(360deg); } }`}
+                      </style>
+                    </div>
+                  )}
+                  {!!logoImage && (
+                    <div style={logoSelectorStyle}>
+                      {logoOptions.map(option => (
+                        <div 
+                          key={option.value}
+                          style={{
+                            ...logoOptionStyle(logoImage === option.value),
+                            opacity: logoLoading ? 0.6 : 1,
+                            pointerEvents: logoLoading ? 'none' : 'auto'
+                          }}
+                          onClick={() => handleLogoChange(option.value)}
+                        >
+                          <img 
+                            src={option.value} 
+                            alt={option.label}
+                            style={logoImageStyle}
+                          />
+                          <span style={logoLabelStyle}>{option.label}</span>
+                        </div>
+                      ))}
+                      <div 
+                        style={{
+                          ...logoOptionStyle(false),
+                          border: '1px dashed #aaa',
+                          justifyContent: 'center',
+                          opacity: logoLoading ? 0.6 : 1,
+                          pointerEvents: logoLoading ? 'none' : 'auto'
+                        }}
+                        onClick={() => fileInputRef.current.click()}
+                      >
+                        <div style={{fontSize: '24px', color: '#aaa', marginBottom: '2px'}}>+</div>
+                        <span style={logoLabelStyle}>Upload</span>
+                        <input 
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileChange}
+                          accept="image/*"
+                          style={{display: 'none'}}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+                  {/*  kalau logo image nya ada */}
+                {!!logoImage && (
+                  <div style={{marginBottom: '20px'}}>
+                    <h5 style={{marginBottom: '8px', marginTop: '16px'}}>Logo Al-Fath Fakultas</h5>
+                    <div style={logoSelectorStyle}>
+                      {fakultasLogos.map(option => (
+                        <div 
+                        key={option.value}
+                        style={{
+                          ...logoOptionStyle(logoImage === option.value),
+                          opacity: logoLoading ? 0.6 : 1,
+                          pointerEvents: logoLoading ? 'none' : 'auto'
+                        }}
+                        onClick={() => handleLogoChange(option.value)}
+                      >
+                        <img 
+                          src={option.value} 
+                          alt={option.label}
+                          style={logoImageStyle}
+                        />
+                        <span style={logoLabelStyle}>{option.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                )}
+
+                   <button
                   type="button"
                   style={{
                     marginBottom: 20,
@@ -480,106 +615,6 @@ const QRForm = ({
                 >
                   Reset ke Default
                 </button>
-
-                <div style={{marginBottom: '20px'}}>
-                  <h5 style={{marginBottom: '8px', marginTop: '16px'}}>Pilih Logo</h5>
-                  <div style={{fontSize:13, color:'#e67e22', marginBottom:8, marginTop:-4}}>
-                    Jika logo masih bermasalah, coba pilih logo lain lalu kembali ke logo yang diinginkan.
-                  </div>
-                  {logoLoading && (
-                    <div style={{
-                      padding: '12px',
-                      background: '#e3f2fd',
-                      borderRadius: '8px',
-                      marginBottom: '12px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      border: '1px solid #bbdefb'
-                    }}>
-                      <div style={{
-                        width: '16px',
-                        height: '16px',
-                        border: '2px solid #2196f3',
-                        borderTop: '2px solid transparent',
-                        borderRadius: '50%',
-                        animation: 'spin 1s linear infinite'
-                      }}></div>
-                      <span style={{color: '#1976d2', fontSize: '14px'}}>
-                        Sedang menyesuaikan warna dan ukuran logo...
-                      </span>
-                      <style>
-                        {`@keyframes spin { to { transform: rotate(360deg); } }`}
-                      </style>
-                    </div>
-                  )}
-                  <div style={logoSelectorStyle}>
-                    {logoOptions.map(option => (
-                      <div 
-                        key={option.value}
-                        style={{
-                          ...logoOptionStyle(logoImage === option.value),
-                          opacity: logoLoading ? 0.6 : 1,
-                          pointerEvents: logoLoading ? 'none' : 'auto'
-                        }}
-                        onClick={() => handleLogoChange(option.value)}
-                      >
-                        <img 
-                          src={option.value} 
-                          alt={option.label}
-                          style={logoImageStyle}
-                        />
-                        <span style={logoLabelStyle}>{option.label}</span>
-                      </div>
-                    ))}
-                    <div 
-                      style={{
-                        ...logoOptionStyle(false),
-                        border: '1px dashed #aaa',
-                        justifyContent: 'center',
-                        opacity: logoLoading ? 0.6 : 1,
-                        pointerEvents: logoLoading ? 'none' : 'auto'
-                      }}
-                      onClick={() => fileInputRef.current.click()}
-                    >
-                      <div style={{fontSize: '24px', color: '#aaa', marginBottom: '2px'}}>+</div>
-                      <span style={logoLabelStyle}>Upload</span>
-                      <input 
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        accept="image/*"
-                        style={{display: 'none'}}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{marginBottom: '20px'}}>
-                  <h5 style={{marginBottom: '8px', marginTop: '16px'}}>Logo Al-Fath Fakultas</h5>
-                  <div style={logoSelectorStyle}>
-                    {fakultasLogos.map(option => (
-                      <div 
-                        key={option.value}
-                        style={{
-                          ...logoOptionStyle(logoImage === option.value),
-                          opacity: logoLoading ? 0.6 : 1,
-                          pointerEvents: logoLoading ? 'none' : 'auto'
-                        }}
-                        onClick={() => handleLogoChange(option.value)}
-                      >
-                        <img 
-                          src={option.value} 
-                          alt={option.label}
-                          style={logoImageStyle}
-                        />
-                        <span style={logoLabelStyle}>{option.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                         
                
               </motion.div>
             )}
