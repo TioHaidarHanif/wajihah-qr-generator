@@ -449,14 +449,14 @@ const QRForm = ({
                     marginTop: 8
                   }}
                   onClick={() => {
-                    setValue("https://share.google/Vzcr6CNrzTQ1euFlT");
+                    setValue("https://bit.ly/btw-nitip");
                     setSize(500);
                     setBgColor("transparent");
                     setEcLevel("H");
                     setQuietZone(10);
                     setLogoImage("/LOGO WAJIHAH/MQ.png");
-                    setLogoWidth(128);
-                    setLogoHeight(128);
+                    handleLogoWidth(128);
+                    handleLogoBgHeight(128);
                     setLogoRatioLocked(true);
                     setLogoOpacity(1);
                     setLogoPadding(0.1);
