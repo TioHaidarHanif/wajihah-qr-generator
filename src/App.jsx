@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import QRForm from "./components/QRForm";
 import QRPreview from "./components/QRPreview";
+import QRScanner from "./components/QRScanner";
 
 function App() {
   // Load from localStorage if available
@@ -16,6 +17,8 @@ function App() {
     } catch {}
     return def;
   };
+  const [showScanner, setShowScanner] = useState(false);
+
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [qrOpacity, setQrOpacity] = useState(getInitial('qrOpacity', 1));
   const [logoRatioLocked, setLogoRatioLocked] = useState(getInitial('logoRatioLocked', true));
@@ -179,13 +182,88 @@ function App() {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
     }}>
 
+      {/* Tombol Scan QR di pojok kanan atas */}
+      <button
+        onClick={() => setShowScanner(true)}
+        style={{
+          position: 'fixed',
+          top: 20,
+          right: 20,
+          zIndex: 2000,
+          padding: '12px 20px',
+          background: '#27ae60',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 8,
+          fontWeight: 600,
+          fontSize: 16,
+          boxShadow: '0 2px 8px rgba(39, 174, 96, 0.15)',
+          cursor: 'pointer',
+          transition: 'all 0.2s',
+        }}
+        onMouseOver={e => {
+          e.target.style.background = '#219150';
+        }}
+        onMouseOut={e => {
+          e.target.style.background = '#27ae60';
+        }}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight:8,verticalAlign:'middle'}}><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Scan QR
+      </button>
 
+      {/* Modal QRScanner */}
+      {showScanner && (
         <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0,0,0,0.35)',
+          zIndex: 3000,
           display: 'flex',
-          flexDirection: window.innerWidth > 900 ? 'row' : 'column',
-          alignItems: 'flex-start',
-          gap: '32px',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: 16,
+            padding: 24,
+            minWidth: 340,
+            maxWidth: '95vw',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+            position: 'relative',
+          }}>
+            <button
+              onClick={() => setShowScanner(false)}
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 14,
+                background: 'none',
+                border: 'none',
+                fontSize: 22,
+                color: '#aaa',
+                cursor: 'pointer',
+                padding: 0
+              }}
+              aria-label="Tutup"
+            >
+              ×
+            </button>
+            <QRScanner />
+          </div>
+        </div>
+      )}
+
+      {/* ...existing code... */}
+      <div style={{
+        display: 'flex',
+        flexDirection: window.innerWidth > 900 ? 'row' : 'column',
+        alignItems: 'flex-start',
+        gap: '32px',
+      }}>
           {/* Left side - QR Preview and Download */}
           <div style={{
             flex: '1',
