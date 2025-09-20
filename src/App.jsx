@@ -31,7 +31,7 @@ function App() {
   const [logoBgX, setLogoBgX] = useState(getInitial('logoBgX', 0));
   const [logoBgY, setLogoBgY] = useState(getInitial('logoBgY', 0));
   const [logoBgCustomStyle, setLogoBgCustomStyle] = useState(getInitial('logoBgCustomStyle', ""));
-  const [value, setValue] = useState(getInitial('value', "bit.ly/btw-nitip"));
+  const [value, setValue] = useState(getInitial('value', ""));
   const [size, setSize] = useState(getInitial('size', 350));
   const [fgColor, setFgColor] = useState(getInitial('fgColor', "#000000"));
   const [bgColor, setBgColor] = useState(getInitial('bgColor', "transparent"));

@@ -424,15 +424,34 @@ const QRForm = ({
               >
                 
                 <div style={inputGroupStyle}>
-                  <label style={labelStyle}>URL atau Teks untuk QR Code </label>
-                  <small>(link ini ubah aja sesuai kebutuhan, saranku udah di short link (misal make bitly))</small>
+                  <label style={labelStyle}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3498db" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: '8px', verticalAlign: 'middle'}}>
+                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    URL atau Teks untuk QR Code
+                  </label>
+                  <small style={{color: '#e67e22', fontWeight: '500'}}>(link ini ubah aja sesuai kebutuhan, saranku udah di short link (misal make bitly))</small>
 
                   <input 
                     type="text" 
                     value={value} 
                     onChange={(e) => setValue(e.target.value)}
                     placeholder="Masukkan URL atau teks untuk QR Code"
-                    style={inputStyle}
+                    style={{
+                      ...inputStyle,
+                      border: '2px solid #3498db',
+                      boxShadow: '0 0 0 3px rgba(52, 152, 219, 0.1)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#2980b9';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.2)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#3498db';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.1)';
+                    }}
                   />
                 </div>
                     <div style={{marginBottom: 20}}>
@@ -584,7 +603,7 @@ const QRForm = ({
                     marginTop: 8
                   }}
                   onClick={() => {
-                    setValue("bit.ly/btw-nitip");
+                    setValue("");
                     setSize(350);
                     setBgColor("transparent");
                     setEcLevel("H");
